@@ -1,0 +1,53 @@
+{#
+/**
+* @file
+* Default theme implementation to display a paragraph of type "banner".
+*
+* ...
+*/
+#}
+
+{%
+set classes = [
+'paragraph',
+'paragraph--type--' ~ paragraph.bundle|clean_class,
+view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+not paragraph.isPublished() ? 'paragraph--unpublished'
+]
+%}
+
+<div{{ attributes.addClass(classes) }}>
+
+  {% block content %}
+  {# Check the paragraph type and render specific HTML for each type #}
+  {% if paragraph.bundle == 'banner' %}
+  <section class="banner" data-scroll-index='0'>
+    <div class="banner-overlay">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 col-sm-12">
+            <div class="banner-text">
+              <h2 class="white">{{ paragraph.field_banner_title.value }}</h2>
+              <h6 class="white">{{ paragraph.field_banner_caption.value|raw }}</h6>
+              <p class="banner-text white">{{ paragraph.field_banner_description.value|raw }}</p>
+              <ul>
+                <li><a href="#"><img src="{{ file_url(paragraph.field_banner_app_store_icon.entity.fileuri) }}"
+                      class="wow fadeInUp" data-wow-delay="0.4s" /></a></li>
+                <li><a href="#"><img src="{{ file_url(paragraph.field_banner_google_play_icon.entity.fileuri) }}"
+                      class="wow fadeInUp" data-wow-delay="0.7s" /></a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-12">
+            <img src="{{ file_url(paragraph.field_banner_image.entity.fileuri) }}" class="img-fluid wow fadeInUp" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <span class="svg-wave"><img class="svg-hero"
+        src="{{ file_url(paragraph.field_banner_background.entity.fileuri) }}"></span>
+  </section>
+  {% endif %}
+  {% endblock %}
+
+  </div>

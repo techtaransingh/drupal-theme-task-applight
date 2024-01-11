@@ -1,0 +1,43 @@
+{#
+/**
+* @file
+* Default theme implementation to display a paragraph of type "banner".
+*
+* ...
+*/
+#}
+
+{%
+set classes = [
+'paragraph',
+'paragraph--type--' ~ paragraph.bundle|clean_class,
+view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+not paragraph.isPublished() ? 'paragraph--unpublished'
+]
+%}
+
+<div{{ attributes.addClass(classes) }}>
+
+    {% block content %}
+    {# Check the paragraph type and render specific HTML for each type #}
+    {% if paragraph.bundle == 'youtube_video' %}
+    <section class="video-section prelative text-center white">
+        <div class="section-padding video-overlay">
+            <div class="container">
+                <h3>Watch Now</h3>
+                <i class="fa fa-play" id="video-icon" aria-hidden="true"></i>
+                <div class="video-popup">
+                    <div class="video-src">
+                        <div class="iframe-src">
+
+                            <iframe src="{{paragraph.field_youtube_video_link.0.url}}" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+    {% endblock %}
+
+    </div>
